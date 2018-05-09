@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { LoopService } from './loop.service';
+import { RunOptions } from './types';
+
 
 @Component({
   selector: 'app-root',
@@ -9,9 +11,11 @@ import { LoopService } from './loop.service';
 export class AppComponent {
   title = 'app';
 
-  constructor(private loop: LoopService){}
+  constructor(
+    private loop: LoopService, 
+    private runConfig: RunOptions){}
 
   ngOnInit(){
-    this.loop.run()
+    
   }
 }
