@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { LoopService } from './services/loop.service';
 import { WindowRefService } from './services/window-ref.service';
 import { FpsmeterService } from './services/fpsmeter.service';
+import { RenderService } from './services/render.service';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FpsmeterService } from './services/fpsmeter.service';
   providers: [ 
     LoopService,
     WindowRefService,
-    FpsmeterService
+    FpsmeterService,
+    RenderService
    ],
   bootstrap: [AppComponent]
 })
