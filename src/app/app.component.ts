@@ -30,11 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.ngZone.runOutsideAngular(
 
       () => {
-        this.renderService.init(ctx)
-        this.loop.run(
-          this.renderService.update,
-          this.renderService.render,
-          ctx, this.running)
+        this.renderService.setCanvasContex(ctx)
+        this.renderService.setPlayers()
+        this.renderService.init()
+        this.loop.run(this.running)
       }
     )
   }

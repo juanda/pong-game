@@ -2,8 +2,9 @@ import { Injectable } from "@angular/core"
 import { WindowRefService } from "./window-ref.service"
 import { FpsmeterService } from "./fpsmeter.service"
 import { ConfigService } from "./config.service";
+import { RenderService } from "./render.service";
 
-type RenderFunction = (number, CanvasRenderingContext2D) => void
+type RenderFunction = (number) => void
 type UpdateFunction = (number) => void
 
 @Injectable()
@@ -12,6 +13,7 @@ export class LoopService {
   private frame: () => void
 
   constructor(
+    private renderService: RenderService,
     private windowRef: WindowRefService,
     private fpsMeterService: FpsmeterService) {
 
@@ -22,17 +24,14 @@ export class LoopService {
     return this.windowRef.nativeWindow.performance.now()
   }
 
-  run(update: UpdateFunction, render: RenderFunction,
-    ctx: CanvasRenderingContext2D, running: boolean) {
+  run(running: boolean) {
     if(!running){
       return
     }
     var now,
       dt = 0,
       last = this.timestamp(),
-      step = 1 / ConfigService.config.fps,
-      update = update,
-      render = render
+      step = 1 / ConfigService.config.fps           
 
     this.frame = () => {
       this.fpsmeter.tickStart();
@@ -40,9 +39,9 @@ export class LoopService {
       dt = dt + Math.min(1, (now - last) / 1000);
       while (dt > step) {
         dt = dt - step;
-        update(step);
+        this.renderService.update(step);
       }
-      render(dt, ctx);
+      this.renderService.render(dt);
       last = now;
       this.fpsmeter.tick();
       requestAnimationFrame(this.frame);
