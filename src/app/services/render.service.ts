@@ -6,18 +6,23 @@ export class RenderService {
   
   private ctx: CanvasRenderingContext2D
   private players: Player[]
+  private canvasWidth: number
+  private canvasHeight: number
 
   setPlayers(){
-    let player1 = new Player(this.ctx)
-    let player2 = new Player(this.ctx)
-    this.players = [player1, player2]
+    this.players = []
+    for(let i = 0; i < 50 ; i++){
+      this.players.push(new Player(this.ctx))
+    }
   }
   // Esta función debe llamarse al principio
   setCanvasContex(ctx){
     this.ctx = ctx
   }
 
-  init() {      
+  init() {  
+    this.canvasWidth = this.ctx.canvas.width    
+    this.canvasHeight = this.ctx.canvas.height    
     for(let player of this.players){
       player.init()
     }
@@ -30,7 +35,7 @@ export class RenderService {
   }
 
   render(dt: number) {
-
+    this.ctx.clearRect(0,0, this.canvasWidth , this.canvasHeight)
     for(let player of this.players){
       player.render(dt)
     }

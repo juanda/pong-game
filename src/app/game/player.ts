@@ -2,11 +2,11 @@ import { IUpdateable } from "./IUpdateable";
 
 export class Player implements IUpdateable {
   static Defaults = {
-    width: 640; // logical canvas width (browser will scale to physical canvas size - which is controlled by @media css queries)
-    height: 480; // logical canvas height (ditto)
-    wallWidth: 10;
-    balls: 20;
-    stats: true;
+    width: 640, // logical canvas width (browser will scale to physical canvas size - which is controlled by @media css queries)
+    height: 480, // logical canvas height (ditto)
+    wallWidth: 10,
+    balls: 20,
+    stats: true,
   };
   radius: number;
   minX: number;
@@ -30,11 +30,11 @@ export class Player implements IUpdateable {
 
   init() {
     this.radius = this.random(1, 30);
-    this.minX = Player.Defaults.wallWidth + this.radius;
-    this.minY = Player.Defaults.wallWidth + this.radius;
-    this.maxX = Player.Defaults.width - Player.Defaults.wallWidth - this.radius;
+    this.minX = this.radius;
+    this.minY = this.radius;
+    this.maxX = this.ctx.canvas.width - this.radius;
     this.maxY =
-      Player.Defaults.height - Player.Defaults.wallWidth - this.radius;
+      this.ctx.canvas.height - this.radius;
     this.x = this.random(this.minX, this.maxX);
     this.y = this.random(this.minY, this.maxY);
     this.dx =
@@ -48,7 +48,7 @@ export class Player implements IUpdateable {
       Math.round(this.random(0, 255)) +
       ", " +
       Math.round(this.random(0, 255)) +
-      ")";
+      ")";    
   }
   update(step: number) {
     let dt = step;
@@ -70,6 +70,7 @@ export class Player implements IUpdateable {
       this.y = this.minY;
       this.dy = -this.dy;
     }
+  
   }
 
   render(dt: number) {

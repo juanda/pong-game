@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, NgZone, OnInit, OnDestroy } from '@an
 import { LoopService } from './services/loop.service';
 import { ConfigService } from './services/config.service';
 import { RenderService } from './services/render.service'
+import { WindowRefService } from './services/window-ref.service';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +20,16 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private loop: LoopService,
     private ngZone: NgZone,
-    private renderService: RenderService) { }
+    private renderService: RenderService,
+    private windowService: WindowRefService) {
+    let window = this.windowService.nativeWindow
+    this.width = window.innerWidth - 20
+    this.height = window.innerHeight - 10
+  }
 
   ngOnInit() {
+    this.canvasRef.nativeElement.width = this.width
+    this.canvasRef.nativeElement.height = this.height
     this.running = true;
     let ctx: CanvasRenderingContext2D =
       this.canvasRef.nativeElement.getContext('2d')

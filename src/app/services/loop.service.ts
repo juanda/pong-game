@@ -17,7 +17,7 @@ export class LoopService {
     private windowRef: WindowRefService,
     private fpsMeterService: FpsmeterService) {
 
-    this.fpsmeter = new this.fpsMeterService.fpsMeter()
+    this.fpsmeter = new this.fpsMeterService.fpsMeter(null, {graph: 1, heat: 1})
   }
 
   timestamp(){
@@ -32,7 +32,7 @@ export class LoopService {
       dt = 0,
       last = this.timestamp(),
       step = 1 / ConfigService.config.fps           
-
+    
     this.frame = () => {
       this.fpsmeter.tickStart();
       now = this.timestamp();
