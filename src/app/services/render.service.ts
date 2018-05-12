@@ -21,6 +21,7 @@ export class RenderService {
   }
 
   init() {  
+    this.setPlayers()
     this.canvasWidth = this.ctx.canvas.width    
     this.canvasHeight = this.ctx.canvas.height    
     for(let player of this.players){
