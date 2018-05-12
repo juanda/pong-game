@@ -7,14 +7,13 @@ import { WindowRefService } from './services/window-ref.service';
 import { FpsmeterService } from './services/fpsmeter.service';
 import { RenderService } from './services/render.service';
 import { GameComponent } from './game/game.component';
-import { GitComponent } from './git/git.component';
+import { GameService } from './game/game.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     GameComponent,
-    GitComponent
   ],
   imports: [
     BrowserModule
@@ -23,7 +22,8 @@ import { GitComponent } from './git/git.component';
     LoopService,
     WindowRefService,
     FpsmeterService,
-    RenderService
+    RenderService,
+    GameService
    ],
   bootstrap: [AppComponent]
 })

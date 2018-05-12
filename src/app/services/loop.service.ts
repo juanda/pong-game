@@ -11,28 +11,36 @@ type UpdateFunction = (number) => void
 export class LoopService {
   private fpsmeter: FPSMeter
   private frame: () => void
+  private ctx: CanvasRenderingContext2D
 
   constructor(
     private renderService: RenderService,
     private windowRef: WindowRefService,
     private fpsMeterService: FpsmeterService) {
 
-    this.fpsmeter = new this.fpsMeterService.fpsMeter(null, {graph: 1, heat: 1})
+    this.fpsmeter = new this.fpsMeterService.fpsMeter(null, { graph: 1, heat: 1 })
   }
 
-  timestamp(){
+  timestamp() {
     return this.windowRef.nativeWindow.performance.now()
   }
 
+  setCanvasContext(ctx: CanvasRenderingContext2D) {
+    this.ctx = ctx
+  }
+
   run(running: boolean) {
-    if(!running){
+    if (!running) {
       return
     }
     var now,
       dt = 0,
       last = this.timestamp(),
-      step = 1 / ConfigService.config.fps           
-    
+      step = 1 / ConfigService.config.fps
+
+    this.renderService.setCanvasContex(this.ctx)
+    this.renderService.init()
+
     this.frame = () => {
       this.fpsmeter.tickStart();
       now = this.timestamp();
