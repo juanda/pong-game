@@ -1,11 +1,13 @@
 import { IUpdateable } from "./IUpdateable";
-import { WindowRefService } from '../services/window-ref.service';
 
 export class Player implements IUpdateable {
-
-  up: boolean = false
-  down: boolean = false
-
+  static Defaults = {
+    width: 640, // logical canvas width (browser will scale to physical canvas size - which is controlled by @media css queries)
+    height: 480, // logical canvas height (ditto)
+    wallWidth: 10,
+    balls: 20,
+    stats: true,
+  };
   radius: number;
   minX: number;
   minY: number;
@@ -16,16 +18,8 @@ export class Player implements IUpdateable {
   dx: number;
   dy: number;
   color: string;
-  constructor(
-    private name: string,
-    private ctx: CanvasRenderingContext2D) { }
+  constructor(private ctx: CanvasRenderingContext2D) {}
 
-  setUp(v: boolean) {
-    this.up = v
-  }
-  setDown(v: boolean){
-    this.down = v
-  }
   random(min, max) {
     return min + Math.random() * (max - min);
   }
@@ -54,10 +48,9 @@ export class Player implements IUpdateable {
       Math.round(this.random(0, 255)) +
       ", " +
       Math.round(this.random(0, 255)) +
-      ")";
+      ")";    
   }
   update(step: number) {
-    if (this.up) return
     let dt = step;
     this.x = this.x + this.dx * dt;
     this.y = this.y + this.dy * dt;
@@ -77,7 +70,7 @@ export class Player implements IUpdateable {
       this.y = this.minY;
       this.dy = -this.dy;
     }
-
+  
   }
 
   render(dt: number) {
