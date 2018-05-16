@@ -8,6 +8,7 @@
     "paddleHeight": 60,
     "paddleSpeed": 2,
     "ballAccel": 8,
+    "ballSpeed": 4,
     "ballRadius": 5,
     "stats": true,
     "colors": {

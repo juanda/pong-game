@@ -4,11 +4,15 @@ import { IUpdateable } from './IUpdateable';
 import { WindowRefService } from '../services/window-ref.service';
 import { Paddle } from './paddle';
 import { ConfigService } from '../services/config.service'
+import { Ball } from './ball';
+import { Collision } from './collision';
 
 @Injectable()
 export class GameService implements IUpdateable{
   private paddleLeft: Paddle
   private paddleRight: Paddle
+  private ball: Ball
+  private collision: Collision
   private ctx: CanvasRenderingContext2D
 
   constructor(private windowRefService: WindowRefService){}
@@ -46,16 +50,24 @@ export class GameService implements IUpdateable{
     this.paddleRight.init()
     this.paddleLeft.setPos(0, (this.paddleLeft.maxY - this.paddleLeft.minY)/2)
     this.paddleRight.setPos(ConfigService.config.pong.width - this.paddleRight.width, (this.paddleLeft.maxY - this.paddleLeft.minY)/2)    
+    
+    this.ball = new Ball(this.ctx)
+    this.ball.init()
+
+    this.collision = new Collision(this.paddleLeft, this.paddleRight, this.ball)
   }
 
   update(step: number){
+    this.collision.update()
     this.paddleLeft.update(step)
     this.paddleRight.update(step)
+    this.ball.update(step)
   }
   
   render(dt: number){
     this.paddleLeft.render(dt)
     this.paddleRight.render(dt)
+    this.ball.render(dt)
   }
 
 }
