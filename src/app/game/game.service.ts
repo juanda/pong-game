@@ -32,7 +32,7 @@ export class GameService implements IUpdateable{
 
   setPlayers(){
     this.players = []
-    for(let i = 0; i < 2 ; i++){
+    for(let i = 0; i < 100 ; i++){
       this.players.push(new Player(i.toString(), this.ctx))
     }
   }
