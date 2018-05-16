@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 import { Player } from './player';
 import { IUpdateable } from './IUpdateable';
 import { WindowRefService } from '../services/window-ref.service';
+import { Paddle } from './paddle';
+import { ConfigService } from '../services/config.service'
 
 @Injectable()
 export class GameService implements IUpdateable{
-  private players: Player[]
+  private paddleLeft: Paddle
+  private paddleRight: Paddle
   private ctx: CanvasRenderingContext2D
 
   constructor(private windowRefService: WindowRefService){}
@@ -14,47 +17,45 @@ export class GameService implements IUpdateable{
     this.ctx = ctx
   }
 
-  setControls(player1: Player, player2: Player){
+  setControls(paddleLeft: Paddle, paddleRight: Paddle){
     let d = this.windowRefService.nativeWindow.document
-
-    d.addEventListener('keyup', (e) => {
-      console.log('keyup ' + e.key)
-      if(e.key == "q") player1.setUp(false)
-      if(e.key == "p") player2.setUp(false)
-    })
 
     d.addEventListener('keydown', (e) => {
       console.log('keydown ' + e.key)
-      if(e.key == "q") player1.setUp(true)
-      if(e.key == "p") player2.setUp(true)
+      if(e.key == "q") paddleLeft.moveUp()
+      if(e.key == "p") paddleRight.moveUp()
+      if(e.key == "a") paddleLeft.moveDown()
+      if(e.key == "l") paddleRight.moveDown()
+    })
+
+    d.addEventListener('keyup', (e) => {
+      console.log('keyup ' + e.key)
+      if(e.key == "q") paddleLeft.stopMovingUp()
+      if(e.key == "p") paddleRight.stopMovingUp()
+      if(e.key == "a") paddleLeft.stopMovingDown()
+      if(e.key == "l") paddleRight.stopMovingDown()
     })
   }
 
-  setPlayers(){
-    this.players = []
-    for(let i = 0; i < 100 ; i++){
-      this.players.push(new Player(i.toString(), this.ctx))
-    }
-  }
 
   init(){
-    this.setPlayers()
-    this.setControls(this.players[0], this.players[1])
-    for(let player of this.players){
-      player.init()
-    }
+    this.paddleLeft = new Paddle(this.ctx)
+    this.paddleRight = new Paddle(this.ctx)
+    this.setControls(this.paddleLeft, this.paddleRight)
+    this.paddleLeft.init()
+    this.paddleRight.init()
+    this.paddleLeft.setPos(0, (this.paddleLeft.maxY - this.paddleLeft.minY)/2)
+    this.paddleRight.setPos(ConfigService.config.pong.width - this.paddleRight.width, (this.paddleLeft.maxY - this.paddleLeft.minY)/2)    
   }
 
   update(step: number){
-    for(let player of this.players){
-      player.update(step)
-    }
+    this.paddleLeft.update(step)
+    this.paddleRight.update(step)
   }
   
   render(dt: number){
-    for(let player of this.players){
-      player.render(dt)
-    }
+    this.paddleLeft.render(dt)
+    this.paddleRight.render(dt)
   }
 
 }

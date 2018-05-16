@@ -1,5 +1,19 @@
 {
-    "fps": 60,
-    "width": 600,
-    "height": 500
+  "fps": 60,
+  "pong": {
+    "width": 640,
+    "height": 480,
+    "wallWidth": 12,
+    "paddleWidth": 12,
+    "paddleHeight": 60,
+    "paddleSpeed": 2,
+    "ballAccel": 8,
+    "ballRadius": 5,
+    "stats": true,
+    "colors": {
+      "walls": "black",
+      "ball": "black",
+      "score": "black"
+    }
+  }
 }

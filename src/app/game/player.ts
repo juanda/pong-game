@@ -1,5 +1,4 @@
 import { IUpdateable } from "./IUpdateable";
-import { WindowRefService } from '../services/window-ref.service';
 
 export class Player implements IUpdateable {
 
@@ -16,6 +15,7 @@ export class Player implements IUpdateable {
   dx: number;
   dy: number;
   color: string;
+  
   constructor(
     private name: string,
     private ctx: CanvasRenderingContext2D) { }
