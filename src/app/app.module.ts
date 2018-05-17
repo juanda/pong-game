@@ -7,7 +7,7 @@ import { WindowRefService } from './services/window-ref.service';
 import { FpsmeterService } from './services/fpsmeter.service';
 import { RenderService } from './services/render.service';
 import { GameComponent } from './game/game.component';
-import { GameService } from './game/game.service';
+import { PongService } from './pong/pong.service';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { GameService } from './game/game.service';
     WindowRefService,
     FpsmeterService,
     RenderService,
-    GameService
+    PongService
    ],
   bootstrap: [AppComponent]
 })

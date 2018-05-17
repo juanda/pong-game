@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Player } from './player';
 import { IUpdateable } from './IUpdateable';
 import { WindowRefService } from '../services/window-ref.service';
 import { Paddle } from './paddle';
@@ -8,7 +7,7 @@ import { Ball } from './ball';
 import { Collision } from './collision';
 
 @Injectable()
-export class GameService implements IUpdateable{
+export class PongService implements IUpdateable{
   private paddleLeft: Paddle
   private paddleRight: Paddle
   private ball: Ball

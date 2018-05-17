@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Player } from '../game/player';
-import { GameService } from '../game/game.service';
+import { PongService } from '../pong/pong.service';
 
 @Injectable()
 export class RenderService {
@@ -9,7 +8,7 @@ export class RenderService {
   private canvasWidth: number
   private canvasHeight: number
 
-  constructor(private gameService: GameService){}
+  constructor(private gameService: PongService){}
   
   // Esta función debe llamarse al principio
   setCanvasContex(ctx){
