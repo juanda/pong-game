@@ -12,9 +12,9 @@
     "ballRadius": 5,
     "stats": true,
     "colors": {
-      "walls": "black",
-      "ball": "black",
-      "score": "black"
+      "walls": "white",
+      "ball": "white",
+      "score": "white"
     }
   }
 }

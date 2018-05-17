@@ -6,6 +6,7 @@ import { ConfigService } from '../services/config.service'
 import { Ball } from './ball';
 import { Collision } from './collision';
 import { Counter } from './counter';
+import { Court } from './court';
 
 @Injectable()
 export class PongService implements IUpdateable{
@@ -14,6 +15,7 @@ export class PongService implements IUpdateable{
   private ball: Ball
   private collision: Collision
   private counter: Counter
+  private court: Court
   private ctx: CanvasRenderingContext2D
 
   constructor(private windowRefService: WindowRefService){}
@@ -46,6 +48,9 @@ export class PongService implements IUpdateable{
 
 
   init(){
+    // Court
+    this.court = new Court(this.ctx)
+    this.court.init()
     // Paddles
     this.paddleLeft = new Paddle(this.ctx)
     this.paddleRight = new Paddle(this.ctx)
@@ -77,6 +82,7 @@ export class PongService implements IUpdateable{
   }
   
   render(dt: number){
+    this.court.render()
     this.counter.render(dt)
     this.paddleLeft.render(dt)
     this.paddleRight.render(dt)

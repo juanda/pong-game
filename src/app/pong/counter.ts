@@ -66,13 +66,18 @@ export class Counter implements IUpdateable {
 
   update(step: number) {
       if(this.ball.x < this.paddleLeft.x){
-          this.points1 ++;
+          this.points2 ++;
           this.ball.reset(1)
       }
       if(this.ball.x > this.paddleRight.x + this.paddleRight.width){
-        this.points2 ++;
+        this.points1 ++;
         this.ball.reset(2)
     }    
+
+    if(this.points1 == 9 || this.points2 == 9){ 
+      this.points1 = this.points2 = 0;
+      this.ball.reset(1)
+    }
   }
 
   render(dt: number) {
