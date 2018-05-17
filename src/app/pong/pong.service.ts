@@ -5,6 +5,7 @@ import { Paddle } from './paddle';
 import { ConfigService } from '../services/config.service'
 import { Ball } from './ball';
 import { Collision } from './collision';
+import { Counter } from './counter';
 
 @Injectable()
 export class PongService implements IUpdateable{
@@ -12,12 +13,15 @@ export class PongService implements IUpdateable{
   private paddleRight: Paddle
   private ball: Ball
   private collision: Collision
+  private counter: Counter
   private ctx: CanvasRenderingContext2D
 
   constructor(private windowRefService: WindowRefService){}
 
   setCanvasContex(ctx){
     this.ctx = ctx
+    this.ctx.canvas.width = ConfigService.config.pong.width
+    this.ctx.canvas.height = ConfigService.config.pong.height
   }
 
   setControls(paddleLeft: Paddle, paddleRight: Paddle){
@@ -42,6 +46,7 @@ export class PongService implements IUpdateable{
 
 
   init(){
+    // Paddles
     this.paddleLeft = new Paddle(this.ctx)
     this.paddleRight = new Paddle(this.ctx)
     this.setControls(this.paddleLeft, this.paddleRight)
@@ -50,20 +55,29 @@ export class PongService implements IUpdateable{
     this.paddleLeft.setPos(0, (this.paddleLeft.maxY - this.paddleLeft.minY)/2)
     this.paddleRight.setPos(ConfigService.config.pong.width - this.paddleRight.width, (this.paddleLeft.maxY - this.paddleLeft.minY)/2)    
     
+    // Ball
     this.ball = new Ball(this.ctx)
     this.ball.init()
 
+    // Collision
     this.collision = new Collision(this.paddleLeft, this.paddleRight, this.ball)
+
+    // Counter
+
+    this.counter = new Counter(this.ctx, this.paddleLeft, this.paddleRight, this.ball)
+    this.counter.init()
   }
 
   update(step: number){
     this.collision.update()
+    this.counter.update(step)
     this.paddleLeft.update(step)
     this.paddleRight.update(step)
     this.ball.update(step)
   }
   
   render(dt: number){
+    this.counter.render(dt)
     this.paddleLeft.render(dt)
     this.paddleRight.render(dt)
     this.ball.render(dt)
